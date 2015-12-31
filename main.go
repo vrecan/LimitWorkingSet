@@ -43,8 +43,8 @@ func SetProcessWorkingSizeEX() {
 	}
 	var lpFlags uint32
 	lpFlags = QUOTA_LIMITS_HARDWS_MAX_ENABLE
-	max := *MAX * uint64(1000) * uint64(1000)
-	min := *MIN * uint64(1000) * uint64(1000)
+	max := *MAX * uint64(1024) * uint64(1024)
+	min := *MIN * uint64(1024) * uint64(1024)
 	res, _, err := set.Call(uintptr(ph), uintptr(min), uintptr(max), uintptr(lpFlags))
 	if res == 0 {
 		abort("SetProcessWorkingSetSizeEx", err)
@@ -78,7 +78,7 @@ func GetProcessWorkSizeEx() string {
 		abort("SetProcessWorkingSetSizeEx", err)
 	}
 
-	return fmt.Sprintf("min: %v max:%v flags:%v", human.Bytes(min), human.Bytes(max), lpFlags)
+	return fmt.Sprintf("min: %v max:%v flags:%v", human.IBytes(min), human.IBytes(max), lpFlags)
 }
 
 func main() {
